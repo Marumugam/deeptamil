@@ -3,10 +3,7 @@
 
 1. Preprocessing of the original MNIST data is mainly motivated by practical experience. MNIST digits are normalized such that the width or height of the bounding box equals 20 pixels. The variation of the aspect ratio for various digits is quite large, and we normalize the width of the bounding
 box to range from 8 to 20 pixels with a step-size of 2 pixels prior to training for all digits except ones. This results in 7 different training sets. Additionally, we generate a deslanted training set using a PCA algorithm that vertically aligns the principal axis of the digits. The experiments performed with these nine different data sets will henceforth be referred to as the experiments with preprocessed data. Figure 1 shows
-ten digits from MNIST preprocessed as described above (left) and the same digits with deformations (right). The first row are original digits. From the second row downwards increasing bounding box normalization from 8 to 20 pixels is applied. The last row shows the deslanted digits.
-
-![Sample Preprocessed Digits](/img/eg01.png)
-![Sample Preprocessed Digits](/img/eg02.jpg)
+ten digits from MNIST preprocessed as described above (left) and the same digits with deformations (right). The first row are original digits. From the second row downwards increasing bounding box normalization from 8 to 20 pixels is applied. The last row shows the deslanted digits. ![](https://raw.githubusercontent.com/Marumugam/deeptamil/master/doc/img/eg01.png) ![](https://raw.githubusercontent.com/Marumugam/deeptamil/master/doc/img/eg02.jpg)
 
 2. Preprocessing steps mentioned in works of [LeCun](http://yann.lecun.com/exdb/mnist/) : **deskewing, noise removal, blurring, width normalization**
 
