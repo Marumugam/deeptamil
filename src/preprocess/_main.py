@@ -16,15 +16,23 @@ def morph(img):
 
 def roi_op(img,thresh):
 	contours,hierarchy = cv2.findContours(img,cv2.RETR_LIST,cv2.CHAIN_APPROX_SIMPLE)
+	# if there are more than one significant contours => complex alphabet
+	#	just return the whole image to be resized and centered,
+	#		instead of getting the ROI
+	num_contours = 0
 	for cnt in contours:
-		if cv2.contourArea(cnt)>50:
+		if cv2.contourArea(cnt)>25:
+			num_contours = num_contours + 1
 			[x,y,w,h] = cv2.boundingRect(cnt)
-			if  h>70:
-				roi = thresh[y:y+h,x:x+w]
-				print "ROI shape : ",roi.shape
-				# resize roi to 100x100
-				roi_100x100 = cv2.resize(roi,(100,100), interpolation = cv2.INTER_CUBIC)
-				return roi_100x100
+			roi = thresh[y:y+h,x:x+w]
+			print "ROI shape : ",roi.shape
+			# resize roi to 100x100
+			roi_100x100 = cv2.resize(roi,(100,100), interpolation = cv2.INTER_CUBIC)
+
+	if num_contours == 1:
+		return roi_100x100
+
+	return cv2.resize(thresh,(100,100), interpolation = cv2.INTER_CUBIC)
 
 def center(roi_100x100):
 	bg = np.zeros((120,120), np.uint8)
@@ -36,11 +44,11 @@ def deskew(img):
 	m = cv2.moments(img)
 	if abs(m['mu02']) < 1e-2:
 		return img.copy()
-		skew = m['mu11']/m['mu02']
-		print "Skew : %f" %(skew)
-		M = np.float32([[1, skew, -0.5*SZ*skew], [0, 1, 0]])
-		img = cv2.warpAffine(img,M,(SZ, SZ),flags=affine_flags)
-		return img
+	skew = m['mu11']/m['mu02']
+	print "Skew : %f" %(skew)
+	M = np.float32([[1, skew, -0.5*SZ*skew], [0, 1, 0]])
+	img = cv2.warpAffine(img,M,(SZ, SZ),flags=affine_flags)
+	return img
 
 def writeToFile(thresh,centered,deskewed):
 	cv2.imwrite(output_path + file_name + "_threshold.png",  thresh)
@@ -56,7 +64,7 @@ def display(thresh,centered,deskewed):
 if __name__ == '__main__':
 	file_name = sys.argv[1]
 	output_path = ""
-	src = cv2.imread("../../data/02/" + file_name + ".tiff",0)
+	src = cv2.imread("../../data/simple_vowel/" + file_name + ".tiff",0)
 	src = cv2.resize(src,(120,120), interpolation = cv2.INTER_CUBIC)
 
 	thresh = morph(src).copy()
