@@ -25,7 +25,7 @@ def roi_op(img,thresh):
 			num_contours = num_contours + 1
 			[x,y,w,h] = cv2.boundingRect(cnt)
 			roi = thresh[y:y+h,x:x+w]
-			print "ROI shape : ",roi.shape
+			#print "ROI shape : ",roi.shape
 			# resize roi to 100x100
 			roi_100x100 = cv2.resize(roi,(100,100), interpolation = cv2.INTER_CUBIC)
 
@@ -45,15 +45,19 @@ def deskew(img):
 	if abs(m['mu02']) < 1e-2:
 		return img.copy()
 	skew = m['mu11']/m['mu02']
-	print "Skew : %f" %(skew)
+	#print "Skew : %f" %(skew)
 	M = np.float32([[1, skew, -0.5*SZ*skew], [0, 1, 0]])
 	img = cv2.warpAffine(img,M,(SZ, SZ),flags=affine_flags)
 	return img
 
 def writeToFile(thresh,centered,deskewed):
-	cv2.imwrite(output_path + file_name + "_threshold.png",  thresh)
-	cv2.imwrite(output_path + file_name + "_centered.png", centered)
-	cv2.imwrite(output_path + file_name + "_deskewed.png", deskewed)
+	centered = cv2.resize(centered,(30,30), interpolation = cv2.INTER_CUBIC)
+	#thresh = cv2.resize(thresh,(30,30), interpolation = cv2.INTER_CUBIC)
+	#deskewed = cv2.resize(deskewed,(30,30), interpolation = cv2.INTER_CUBIC)
+	#cv2.imwrite(output_path + file_name + "_threshold.png",  thresh)
+	#cv2.imwrite(output_path + file_name + "_deskewed.png", deskewed)
+	cv2.imwrite(output_path + "/" + file_name + ".jpg", centered)
+
 
 def display(thresh,centered,deskewed):
 	cv2.imshow('original',thresh)
@@ -62,9 +66,10 @@ def display(thresh,centered,deskewed):
 	cv2.waitKey(0)
 
 if __name__ == '__main__':
-	file_name = sys.argv[1]
-	output_path = ""
-	src = cv2.imread("../../data/simple_vowel/" + file_name + ".tiff",0)
+	file_path = sys.argv[1]
+	file_name = sys.argv[2]
+	output_path = sys.argv[3]
+	src = cv2.imread(file_path,0)
 	src = cv2.resize(src,(120,120), interpolation = cv2.INTER_CUBIC)
 
 	thresh = morph(src).copy()
@@ -79,4 +84,4 @@ if __name__ == '__main__':
 	# display
 	#display(thresh,centered,deskewed)
 
-	cv2.destroyAllWindows()
+	#cv2.destroyAllWindows()
