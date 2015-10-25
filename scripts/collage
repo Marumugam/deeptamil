@@ -1,0 +1,6 @@
+#!/bin/bash
+
+montage *threshold*.png 1threshold.png
+montage *deskewed*.png 2deskewed.png
+montage *centered*.png 3center.png
+montage -geometry 500x500 1threshold.png 2deskewed.png 3center.png montaged.png
