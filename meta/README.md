@@ -21,12 +21,12 @@
 *./main_py /path/to/file_name.tiff file_name_without_extension /path/to/export/output
 ```
 
-3. Modify the *loop* script in src/preprocess to loop through images for applying _main.py
+3. Modify the *loop* script in src/preprocess to loop through images running _main.py
 
 
 ### Training, Testing Requirements
 
-*notice that these images in train/ and test/ folders are preprocessed*
+*notice that after preprocessing all the raw images, we should create train/ and test/ folders and store the preprocessed images in them*
 
 1. We need two folders of preprocessed images. One folder containing 80% of total images for training and the other containing 20% images for testing. 
 
@@ -42,7 +42,7 @@
 
 3. Column 1 : file path of image ( /path/to/image_file.png )
 
-4. Column 2 : label of image ( Character code the image represents )
+4. Column 2 : label of image ( Character code the image represents ) **Note : leading zeros should not be part of the label**
 
 5. Output : traindata.index, testdata.index
 
