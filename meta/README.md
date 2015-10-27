@@ -17,8 +17,8 @@
 
 2. Usage : 
 
-``` python
-*./main_py /path/to/file_name.tiff file_name_without_extension /path/to/export/output
+``` bash
+src/preprocess/_main.py /path/to/file_name.tiff file_name_without_extension /path/to/export/output
 ```
 
 3. Modify the *loop* script in src/preprocess to loop through images running _main.py
