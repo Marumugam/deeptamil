@@ -9,6 +9,7 @@
 ### Raw dataset Organization
 
 1. Download raw datasets from [here](lipitk.sourceforge.net/datasets/tamilchardata.htm)
+
 2. The dataset is organized into multiple folders. Each folder contains characters written by an individual. Folder name format **usr_xxx**. Inside each folder, there are *.tiff images of characters. Each character is written 10 times (10 images per character) by the same person.
 
 ### Preprocessing
@@ -47,3 +48,19 @@ src/preprocess/_main.py /path/to/file_name.tiff file_name_without_extension /pat
 5. Output : traindata.index, testdata.index
 
 
+## Prediction Tool
+
+*a C++ or python program that takes a model definition file, pretrained model and an image and outputs the class labels with high probability score*
+
+1. Train a mnist model, use classify.py to classify an image
+
+2. Write a __deploy.prototxt definition file for classifying images : use the deploy definition in [caffe-ocr](https://github.com/pannous/caffe-ocr) as template
+
+3. Use the new deploy file as model definition and try classification in python
+
+
+## Segmentation
+
+*segment text blobs from paper, segment out individual characters*
+
+1. Survey on segmentation techniques for OCR
