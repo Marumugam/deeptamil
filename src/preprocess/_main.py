@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+import os
 import cv2
 import numpy as np
 import sys
@@ -8,6 +9,7 @@ SZ = 120
 affine_flags = cv2.WARP_INVERSE_MAP|cv2.INTER_LINEAR
 
 file_name = ""
+
 
 def morph(img):
 	img = cv2.GaussianBlur(src,(5,5),0)
@@ -51,7 +53,7 @@ def deskew(img):
 	return img
 
 def writeToFile(thresh,centered,deskewed):
-	centered = cv2.resize(centered,(30,30), interpolation = cv2.INTER_CUBIC)
+
 	#thresh = cv2.resize(thresh,(30,30), interpolation = cv2.INTER_CUBIC)
 	#deskewed = cv2.resize(deskewed,(30,30), interpolation = cv2.INTER_CUBIC)
 	#cv2.imwrite(output_path + file_name + "_threshold.png",  thresh)
@@ -67,9 +69,11 @@ def display(thresh,centered,deskewed):
 
 if __name__ == '__main__':
 	file_path = sys.argv[1]
-	file_name = sys.argv[2]
-	output_path = sys.argv[3]
+	output_path = sys.argv[2]
 	src = cv2.imread(file_path,0)
+
+        print(sys.argv[0] + ": operating over " + file_path)
+
 	src = cv2.resize(src,(120,120), interpolation = cv2.INTER_CUBIC)
 
 	thresh = morph(src).copy()
@@ -77,9 +81,13 @@ if __name__ == '__main__':
 	deskewed_copy = deskewed.copy()
 	roi = roi_op(deskewed_copy,deskewed).copy()
 	centered = center(roi)
+	centered = cv2.resize(centered,(30,30), interpolation = cv2.INTER_CUBIC)
 
 	# write to file
-	writeToFile(thresh,centered,deskewed)
+        file_name, file_ext = os.path.splitext(os.path.basename(file_path))
+       
+        #cv2.imwrite(output_path + "/" + file_name + "_orig" + ".jpg", src)
+        cv2.imwrite(output_path + "/" + file_name + file_ext, centered)
 
 	# display
 	#display(thresh,centered,deskewed)
