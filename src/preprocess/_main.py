@@ -27,12 +27,12 @@ def roi_op(img,thresh):
 			roi = thresh[y:y+h,x:x+w]
 			#print "ROI shape : ",roi.shape
 			# resize roi to 100x100
-			roi_100x100 = cv2.resize(roi,(100,100), interpolation = cv2.INTER_CUBIC)
+			roi_100x100 = cv2.resize(roi,(80,80), interpolation = cv2.INTER_CUBIC)
 
 	if num_contours == 1:
 		return roi_100x100
 
-	return cv2.resize(thresh,(100,100), interpolation = cv2.INTER_CUBIC)
+	return cv2.resize(thresh,(80,80), interpolation = cv2.INTER_CUBIC)
 
 def center(roi_100x100):
 	bg = np.zeros((120,120), np.uint8)
@@ -65,6 +65,11 @@ def display(thresh,centered,deskewed):
 	cv2.imshow('deskewed',deskewed)
 	cv2.waitKey(0)
 
+def dilate(centered):
+	kernel = np.ones((3,3),np.uint8)
+	dilation = cv2.dilate(im,kernel,iterations = 1)
+
+
 if __name__ == '__main__':
 	file_path = sys.argv[1]
 	file_name = sys.argv[2]
@@ -77,6 +82,7 @@ if __name__ == '__main__':
 	deskewed_copy = deskewed.copy()
 	roi = roi_op(deskewed_copy,deskewed).copy()
 	centered = center(roi)
+	centered = dialte(centered)
 
 	# write to file
 	writeToFile(thresh,centered,deskewed)
