@@ -22,6 +22,22 @@ void deskew(Mat* img){
 	return img
 		---- py -----
 	*/
+  
+  /*
+  Mat canny_output;
+  vector<vector<Point> > contours;
+  vector<Vec4i> hierarchy;
+
+  /// Detect edges using canny
+  Canny( src_gray, canny_output, thresh, thresh*2, 3 );
+  /// Find contours
+  findContours( canny_output, contours, hierarchy, CV_RETR_TREE, CV_CHAIN_APPROX_SIMPLE, Point(0, 0) );
+
+  /// Get the moments
+  vector<Moments> mu(contours.size() );
+  for( int i = 0; i < contours.size(); i++ )
+     { mu[i] = moments( contours[i], false ); }
+  */
 }
 
 int main(int argc, char** argv){
@@ -50,9 +66,10 @@ int main(int argc, char** argv){
 	*/
 
 	// resize to 120x120
+	imshow("source",src);
 	resize( src, src, Size(120,120), 0, 0, INTER_LINEAR );
 	morph(&src);
-	imshow("source",src);
+
 
 	waitKey(0);
 
