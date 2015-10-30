@@ -1,0 +1,11 @@
+#!/bin/bash
+
+for f in *.png
+do
+	base=$(basename "$f")
+	base_name=${base%.*}
+	lab=${base_name:0:-3}
+	label=${lab: -3}
+	#echo "$PWD/$f $((10#$label))" >> ../_def.index
+	echo "$PWD/$f $label" >> ../_def.index
+done
