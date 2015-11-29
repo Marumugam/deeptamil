@@ -11,7 +11,14 @@ def convert_image_to_1d_array(img):
     """ Takes path to image and convert it to 1d array and return it"""
 
     x = cv2.imread(img, cv2.CV_LOAD_IMAGE_GRAYSCALE)
+    if x is None:
+        print "ERROR: loading image ' + img + ' failed."
+        return None
+        
     x = cv2.threshold(x, 128, 255, cv2.THRESH_BINARY | cv2.THRESH_OTSU)[1]
+    if x is None:
+        print "ERROR: thresholding image ' + img + ' failed."
+        return None
 
     return x.flatten()
 
@@ -31,20 +38,25 @@ if __name__ == "__main__":
     files = [ f for f in os.listdir(d) if os.path.isfile(os.path.join(d,f)) ]
 
     i = 0
+    t = len(files)
     for f in files:            
         data = convert_image_to_1d_array(os.path.join(d,f))
+        if data is None:
+            continue
+
         label  = int(re.search('u\d+_(\d+)t\d', f).group(1))
         
-        print '... processing ' + f
+        print '... processing image ' + str(i) + '/' + str(t) + ' --- '  + f + ' '+ str (int(float(i)/float(t) * 100)) + '% complete.'
 
         if i == 0:
             array_of_data = np.vstack((data,))
             array_of_labels = [label]
-            i = 1
+            
         else:
             array_of_data = np.vstack((array_of_data, data))
             array_of_labels.append(label)
         
+        i =  i + 1
 
     dataset = (array_of_data, np.asarray(array_of_labels))    
     length = len(dataset)
