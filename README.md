@@ -1,5 +1,4 @@
 # Deep Tamil
-
 Research on Deep Models for recognizing tamil characters and translation. Currently starting out as a simple OCR project that recognizes tamil characters using a deep Convolutional Neural Network model similar to LeNet5. 
 
 
@@ -23,12 +22,12 @@ The samples were centered(based on contour detection) and padded with 10 pixels 
 We trained totally four model of neural networks, for recognizing the tamil charaset. The model are their accuracy of prediction after traning are as follows.
 
 
-| Model                      | Accuracy(%) |
-|----------------------------+-------------|
-| SingleNeuron               |         30% |
-| SingleLayer                |         33% |
-| MultiLayerPerceptron       |         37% |
-| ConvolutionalNeuralNetwork |         70% |
+Model                      | Accuracy(%) 
+---------------------------|------------
+SingleNeuron               |         30%
+SingleLayer                |         33%
+MultiLayerPerceptron       |         37%
+ConvolutionalNeuralNetwork |         70%
 
 
 #### CNN in detail:
