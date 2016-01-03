@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-if ($#ARGV < 2) {
+if ($#ARGV < 1) {
     print "$0: unexpected number of arguments";
     die;
 }
