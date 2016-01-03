@@ -7,3 +7,6 @@
 *.pkl
 *~
 *.pyc
+*.tar.xz
+*.gz
+*.pdf
