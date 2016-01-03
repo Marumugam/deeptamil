@@ -35,12 +35,67 @@
 <li>Model Integration</li>
 </ol>
 
+<h2>
+<a id="dataset" class="anchor" href="#dataset" aria-hidden="true"><span class="octicon octicon-link"></span></a>Dataset</h2>
+
+<p>The tamil alphabets dataset was downloaded from <a href="https://lipitk.sourceforge.net/datasets/tamilchardata.htm">Isolated Handwritten Tamil Alphabet Dataset</a>. The dataset contained 77.7k samples collected from 170 users, for 155 alphabets(approx. 500 samples for each alphabet). The whole dataset was divided into three sets, training, validation, test datasets. The sample images were preprocessed and the preprocessed images were of size 30x30.</p>
+
 <h3>
 <a id="preprocessing" class="anchor" href="#preprocessing" aria-hidden="true"><span class="octicon octicon-link"></span></a>Preprocessing</h3>
 
-<p><em>Selective Centering Mechanism</em></p>
+<p><em>Selective Centering Mechanism</em>
+The samples were centered(based on contour detection) and padded with 10 pixels on all the sides. The samples, were resized to 30x30 and conveted to .png files. Some of the samples were extremely damaged, using them for traning will actually worsen the learned model. Those samples had to be discarded, based on the structural similarity with a standard tamil font set. </p>
 
-<p><img src="https://media.githubusercontent.com/media/Marumugam/deeptamil/master/img/montaged.png" alt=""></p>
+<h3>
+<a id="traning" class="anchor" href="#traning" aria-hidden="true"><span class="octicon octicon-link"></span></a>Traning</h3>
+
+<p>We trained totally four model of neural networks, for recognizing the tamil charaset. The model are their accuracy of prediction after traning are as follows.</p>
+
+<table>
+<thead>
+<tr>
+<th>Model</th>
+<th>Accuracy(%)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SingleNeuron</td>
+<td>30%</td>
+</tr>
+<tr>
+<td>SingleLayer</td>
+<td>33%</td>
+</tr>
+<tr>
+<td>MultiLayerPerceptron</td>
+<td>37%</td>
+</tr>
+<tr>
+<td>ConvolutionalNeuralNetwork</td>
+<td>70%</td>
+</tr>
+</tbody>
+</table>
+
+<h4>
+<a id="cnn-in-detail" class="anchor" href="#cnn-in-detail" aria-hidden="true"><span class="octicon octicon-link"></span></a>CNN in detail:</h4>
+
+<p>CNN :- The were two sets of, Conv + ReLu + MaxPooling neural layers. 
+It was follwed by a hidden layer of 500 neurons - with activation function <strong>tanh</strong>, and
+Output layer of 155 neurons(corresponding each tamil alphabet) - with activation function <strong>softmax</strong>.</p>
+
+<p>The CNN was trained in batches of 128 samples from traning dataset. After each batch the model was validated over validation dataset. 
+Then another batch of 128 samples were used to train the CNN. This process was repeated for whole dataset. </p>
+
+<p>The entire process:- traning over whole training dataset, was repeated for 12 times(12 epochs). Then the model was evaluated with the test dataset. The learned model provided accuracy of 70%.</p>
+
+<h3>
+<a id="plans" class="anchor" href="#plans" aria-hidden="true"><span class="octicon octicon-link"></span></a>Plans</h3>
+
+<p>Since the tamil alphabet is very different from latin alphabets or numerical digits, the shape of the sample need to changed to a rectangle of 4:3 ratio, say 64x48. 
+Also, more samples need to be collected, since the existing dataset is partly damaged and insuffcient for training the neural network, because of the complex nature of tamil alphabets. 
+Adding more colvolutional layers will provide more space to store more hypotheses. Storing more hypotheses mean, the model can store more variations in the input. But adding more layers, also dictates the need of more samples, a lot more.</p>
 
       <footer class="site-footer">
         <span class="site-footer-owner"><a href="https://github.com/Marumugam/deeptamil">Deep Tamil</a> is maintained by <a href="https://github.com/Marumugam">Marumugam</a>.</span>
