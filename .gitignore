@@ -2,3 +2,8 @@
 *.zip
 *.index
 .*swp
+.ipynb_checkpoints
+*.pkl.gz
+*.pkl
+*~
+*.pyc
